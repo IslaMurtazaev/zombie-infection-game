@@ -13,6 +13,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import Building from "./components/Building";
 import Ground from "./components/Ground";
+import ButtonEdge from './components/ButtonEdge';
 
 const BUCKMAN_HALL = {
   id: "buckman",
@@ -188,6 +189,10 @@ const initialEdges = [
   { id: "dodds-kaplan", source: "dodds", target: "kaplan" },
 ];
 
+const edgeTypes = {
+  buttonEdge: ButtonEdge,
+};
+
 export default function App() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -200,19 +205,21 @@ export default function App() {
   const nodeTypes = useMemo(() => ({ building: Building, ground: Ground }), []);
 
   return (
-    <div style={{ position: "relative", width: "100vw", height: "100vh" }}>
-      <ReactFlow
-        nodeTypes={nodeTypes}
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-      >
-        <Controls />
-        <MiniMap />
-        <Background variant="dots" gap={12} size={1} />
-      </ReactFlow>
+    <div style={{ position: "relative", width: '100vw', height: '100vh' }}>
+        <ReactFlow
+            nodeTypes={nodeTypes}
+            nodes={nodes}
+            edges={edges}
+            edgeTypes={edgeTypes}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            fitView //Added this for better view.
+        >
+            <Controls />
+            <MiniMap />
+            <Background variant="dots" gap={12} size={1} />
+        </ReactFlow>
     </div>
   );
 }
