@@ -35,10 +35,10 @@ export default function CustomEdge({
     <>
       <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
       <EdgeLabelRenderer>
-      <div
+        <div
           className="button-edge__label nodrag nopan"
           style={{
-            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            transform: `translate(${labelX}px,${labelY}px)`,
           }}
         >
           <button className="button-edge__button" >
