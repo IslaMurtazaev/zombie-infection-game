@@ -19,6 +19,7 @@ const BUCKMAN_HALL = {
     type: 'building',
     data: {
         label: 'Buckman Hall',
+        isInfected: false,
         handles: [
             {
                 type: 'target',
@@ -34,12 +35,15 @@ const BUCKMAN_HALL = {
     }
 }
 
+
+
 const BARTELLS_HALL = {
     id: 'bartells',
     position: {x: 600, y: 0},
     type: 'building',
     data: {
         label: 'Bartells Hall',
+        isInfected: false,
         handles: [
             {
                 type: 'target',
@@ -61,6 +65,7 @@ const MAXCY_HALL = {
     type: 'building',
     data: {
         label: 'Maxcy Hall',
+        isInfected: false,
         handles: [
             {
                 type: 'source',
@@ -77,6 +82,7 @@ const KAPLAN_HALL = {
     type: 'building',
     data: {
         label: 'Kaplan Hall',
+        isInfected: false,
         handles: [
             {
                 type: 'target',
