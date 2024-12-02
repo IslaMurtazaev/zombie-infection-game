@@ -23,4 +23,5 @@ function Building({data}) {
     );
 }
 
+
 export default Building
