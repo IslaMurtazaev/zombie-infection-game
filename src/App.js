@@ -167,6 +167,7 @@ const GREEN_GROUND = {
   },
 };
 
+
 const initialNodes = [
   REC_CENTER,
   BUCKMAN_HALL,
