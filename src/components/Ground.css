@@ -1,0 +1,9 @@
+.ground {
+  width: 300px; /* Make the ground cover the entire width of the screen */
+  height: 400px; /* Set the height of the ground */
+  background-color: rgb(50, 158, 50, 0.5); /* Green color for the ground */
+  position: fixed; /* Absolute positioning to place it at the bottom */
+  left: 300px; /* Position the ground 300px from the left */
+  top: 350px; /* Position the ground 350px from the top */
+  /* Ensure it's behind all other elements (buildings, edges, etc.) */
+}

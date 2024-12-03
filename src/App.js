@@ -1,138 +1,218 @@
-import React, {useCallback, useMemo} from 'react';
+import React, { useCallback, useMemo } from "react";
 import {
-    ReactFlow,
-    MiniMap,
-    Controls,
-    Background,
-    useNodesState,
-    useEdgesState,
-    addEdge,
-    Position,
-} from '@xyflow/react';
+  ReactFlow,
+  MiniMap,
+  Controls,
+  Background,
+  useNodesState,
+  useEdgesState,
+  addEdge,
+  Position,
+} from "@xyflow/react";
 
-import '@xyflow/react/dist/style.css';
+import "@xyflow/react/dist/style.css";
 import Building from "./components/Building";
+import Ground from "./components/Ground";
 
 const BUCKMAN_HALL = {
-    id: 'buckman',
-    position: {x: 600, y: 600},
-    type: 'building',
-    data: {
-        label: 'Buckman Hall',
-        isInfected: false,
-        handles: [
-            {
-                type: 'target',
-                position: Position.Left,
-                id: "buckman-left"
-            },
-            {
-                type: 'source',
-                position: Position.Right,
-                id: "buckman-right"
-            },
-        ]
-    }
-}
-
-
+  id: "buckman",
+  position: { x: 700, y: 600 },
+  type: "building",
+  data: {
+    label: "Buckman Hall",
+    isInfected: false,
+    handles: [
+      {
+        type: "target",
+        position: Position.Left,
+        id: "buckman-left",
+      },
+      {
+        type: "source",
+        position: Position.Right,
+        id: "buckman-right",
+      },
+    ],
+  },
+};
 
 const BARTELLS_HALL = {
-    id: 'bartells',
-    position: {x: 600, y: 0},
-    type: 'building',
-    data: {
-        label: 'Bartells Hall',
-        isInfected: false,
-        handles: [
-            {
-                type: 'target',
-                position: Position.Left,
-                id: "bartells-left"
-            },
-            {
-                type: 'source',
-                position: Position.Right,
-                id: "bartells-right"
-            },
-        ]
-    }
-}
+  id: "bartells",
+  position: { x: 700, y: 0 },
+  type: "building",
+  data: {
+    label: "Bartells Hall",
+    isInfected: false,
+    handles: [
+      {
+        type: "target",
+        position: Position.Left,
+        id: "bartells-left",
+      },
+      {
+        type: "source",
+        position: Position.Right,
+        id: "bartells-right",
+      },
+    ],
+  },
+};
 
 const MAXCY_HALL = {
-    id: 'maxcy',
-    position: {x: 100, y: 300},
-    type: 'building',
-    data: {
-        label: 'Maxcy Hall',
-        isInfected: false,
-        handles: [
-            {
-                type: 'source',
-                position: Position.Right,
-                id: "maxcy-right"
-            },
-        ]
-    }
-}
+  id: "maxcy",
+  position: { x: -50, y: 300 },
+  type: "building",
+  data: {
+    label: "Maxcy Hall",
+    isInfected: false,
+    handles: [
+      {
+        type: "source",
+        position: Position.Right,
+        id: "maxcy-right",
+      },
+    ],
+  },
+};
 
 const KAPLAN_HALL = {
-    id: 'kaplan',
-    position: {x: 1100, y: 300},
-    type: 'building',
-    data: {
-        label: 'Kaplan Hall',
-        isInfected: false,
-        handles: [
-            {
-                type: 'target',
-                position: Position.Left,
-                id: "kaplan-left"
-            },
-        ]
-    }
-}
+  id: "kaplan",
+  position: { x: 1100, y: 300 },
+  type: "building",
+  data: {
+    label: "Kaplan Hall",
+    isInfected: false,
+    handles: [
+      {
+        type: "target",
+        position: Position.Left,
+        id: "kaplan-left",
+      },
+    ],
+  },
+};
 
+const DODDS_HALL = {
+  id: "dodds",
+  position: { x: 1100, y: -400 },
+  type: "building",
+  data: {
+    label: "Dodds Hall",
+    isInfected: false,
+    handles: [
+      {
+        type: "target",
+        position: Position.Left,
+        id: "dodds-left",
+      },
+      {
+        type: "source",
+        position: Position.Right,
+        id: "dodds-right",
+      },
+    ],
+  },
+};
+const REC_CENTER = {
+  id: "reccenter",
+  position: { x: -300, y: -100 },
+  type: "building",
+  data: {
+    label: "Recreational Center",
+    isInfected: false,
+    handles: [
+      {
+        type: "target",
+        position: Position.Left,
+        id: "reccenter-left",
+      },
+      {
+        type: "source",
+        position: Position.Right,
+        id: "reccenter-right",
+      },
+    ],
+  },
+};
+
+const LIBRARY = {
+  id: "library",
+  position: { x: 200, y: 700 },
+  type: "building",
+  data: {
+    label: "Library",
+    isInfected: false,
+    handles: [
+      {
+        type: "target",
+        position: Position.Left,
+        id: "library-left",
+      },
+      {
+        type: "source",
+        position: Position.Right,
+        id: "library-right",
+      },
+    ],
+  },
+};
+
+const GREEN_GROUND = {
+  id: "green-ground",
+  position: { x: 0, y: 0 }, // Adjust to position the ground
+  type: "ground",
+  data: {
+    label: "Quad", // No label or optional "Green Ground"
+  },
+};
 
 const initialNodes = [
-    BUCKMAN_HALL,
-    BARTELLS_HALL,
-    MAXCY_HALL,
-    KAPLAN_HALL
+  REC_CENTER,
+  BUCKMAN_HALL,
+  BARTELLS_HALL,
+  MAXCY_HALL,
+  DODDS_HALL,
+  KAPLAN_HALL,
+  LIBRARY,
+  GREEN_GROUND,
 ];
 const initialEdges = [
-    {id: 'maxcy-bartells', source: 'maxcy', target: 'bartells'},
-    {id: 'maxcy-buckman', source: 'maxcy', target: 'buckman'},
-    {id: 'buckman-kaplan', source: 'buckman', target: 'kaplan'},
-    {id: 'bartells-kaplan', source: 'bartells', target: 'kaplan'}
+  { id: "reccenter-bartells", source: "reccenter", target: "bartells" },
+  { id: "reccenter-maxcy", source: "reccenter", target: "maxcy" },
+  { id: "maxcy-bartells", source: "maxcy", target: "bartells" },
+  { id: "maxcy-buckman", source: "maxcy", target: "buckman" },
+  { id: "maxcy-library", source: "maxcy", target: "library" },
+  { id: "library-buckman", source: "library", target: "buckman" },
+  { id: "buckman-kaplan", source: "buckman", target: "kaplan" },
+  { id: "bartells-dodds", source: "bartells", target: "dodds" },
+  { id: "dodds-kaplan", source: "dodds", target: "kaplan" },
 ];
 
-
 export default function App() {
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-    const onConnect = useCallback(
-        (params) => setEdges((eds) => addEdge(params, eds)),
-        [setEdges],
-    );
+  const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
 
-    const nodeTypes = useMemo(() => ({ building: Building }), []);
+  const nodeTypes = useMemo(() => ({ building: Building, ground: Ground }), []);
 
-    return (
-        <div style={{ width: '100vw', height: '100vh' }}>
-            <ReactFlow
-                nodeTypes={nodeTypes}
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-            >
-                <Controls />
-                <MiniMap />
-                <Background variant="dots" gap={12} size={1} />
-            </ReactFlow>
-        </div>
-    );
+  return (
+    <div style={{ position: "relative", width: "100vw", height: "100vh" }}>
+      <ReactFlow
+        nodeTypes={nodeTypes}
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+      >
+        <Controls />
+        <MiniMap />
+        <Background variant="dots" gap={12} size={1} />
+      </ReactFlow>
+    </div>
+  );
 }
