@@ -34,15 +34,15 @@ const initialNodes = [
 ];
 
 const initialEdges = [
-  { id: "reccenter-bartells", source: "reccenter", target: "bartells", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
-  { id: "reccenter-maxcy", source: "reccenter", target: "maxcy", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
-  { id: "maxcy-bartells", source: "maxcy", target: "bartells", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
-  { id: "maxcy-buckman", source: "maxcy", target: "buckman", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
-  { id: "maxcy-library", source: "maxcy", target: "library", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
-  { id: "library-buckman", source: "library", target: "buckman", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
-  { id: "buckman-kaplan", source: "buckman", target: "kaplan", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
-  { id: "bartells-dodds", source: "bartells", target: "dodds", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
-  { id: "dodds-kaplan", source: "dodds", target: "kaplan", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
+  { id: "reccenter-bartells", source: "reccenter", target: "bartells", type: 'customEdge', data: {zombies: 1, defenders: 1} },
+  { id: "reccenter-maxcy", source: "reccenter", target: "maxcy", type: 'customEdge', data: {zombies: 1, defenders: 1} },
+  { id: "maxcy-bartells", source: "maxcy", target: "bartells", type: 'customEdge', data: {zombies: 1, defenders: 5} },
+  { id: "maxcy-buckman", source: "maxcy", target: "buckman", type: 'customEdge', data: {zombies: 1, defenders: 1} },
+  { id: "maxcy-library", source: "maxcy", target: "library", type: 'customEdge', data: {zombies: 1, defenders: 1} },
+  { id: "library-buckman", source: "library", target: "buckman", type: 'customEdge', data: {zombies: 1, defenders: 1} },
+  { id: "buckman-kaplan", source: "buckman", target: "kaplan", type: 'customEdge', data: {zombies: 1, defenders: 1} },
+  { id: "bartells-dodds", source: "bartells", target: "dodds", type: 'customEdge', data: {zombies: 1, defenders: 1} },
+  { id: "dodds-kaplan", source: "dodds", target: "kaplan", type: 'customEdge', data: {zombies: 1, defenders: 1} },
 ];
 
 const edgeTypes = {

@@ -1,24 +1,9 @@
 import React from 'react';
-import { getSmoothStepPath } from '@xyflow/react';
-
 
 export function Zombies({
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-    sourcePosition,
-    targetPosition,
+    edgePath,
     amount,
 }) {
-    const [edgePath] = getSmoothStepPath({
-        sourceX,
-        sourceY,
-        sourcePosition,
-        targetX,
-        targetY,
-        targetPosition,
-    });
 
     return (
         <g>

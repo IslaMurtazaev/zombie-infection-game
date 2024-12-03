@@ -25,15 +25,16 @@ export default function CustomEdge({
     targetY,
     targetPosition,
   });
-  const {amount, type} = data
+  const {zombies, defenders} = data
 
   return (
     <>
       <BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
-      {type === "zombies" ? (
-          <Zombies sourceX={sourceX} sourceY={sourceY} targetX={targetX} targetY={targetY} sourcePosition={sourcePosition} targetPosition={targetPosition} amount={amount} />
-      ) : (
-          <Defenders amount={amount} labelX={labelX} labelY={labelY} />
+      {zombies > 0 && (
+          <Zombies edgePath={edgePath} amount={zombies} />
+      )}
+      {defenders > 0 && (
+          <Defenders amount={defenders} labelX={labelX} labelY={labelY} />
       )}
     </>
   );
