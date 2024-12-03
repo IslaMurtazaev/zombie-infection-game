@@ -13,7 +13,7 @@ import {
 import "@xyflow/react/dist/style.css";
 import Building from "./components/Building";
 import Ground from "./components/Ground";
-import ButtonEdge from './components/ButtonEdge';
+import CustomEdge from './components/CustomEdge/CustomEdge';
 
 const BUCKMAN_HALL = {
   id: "buckman",
@@ -179,19 +179,19 @@ const initialNodes = [
   GREEN_GROUND,
 ];
 const initialEdges = [
-  { id: "reccenter-bartells", source: "reccenter", target: "bartells" },
-  { id: "reccenter-maxcy", source: "reccenter", target: "maxcy" },
-  { id: "maxcy-bartells", source: "maxcy", target: "bartells" },
-  { id: "maxcy-buckman", source: "maxcy", target: "buckman" },
-  { id: "maxcy-library", source: "maxcy", target: "library" },
-  { id: "library-buckman", source: "library", target: "buckman" },
-  { id: "buckman-kaplan", source: "buckman", target: "kaplan" },
-  { id: "bartells-dodds", source: "bartells", target: "dodds" },
-  { id: "dodds-kaplan", source: "dodds", target: "kaplan" },
+  { id: "reccenter-bartells", source: "reccenter", target: "bartells", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
+  { id: "reccenter-maxcy", source: "reccenter", target: "maxcy", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
+  { id: "maxcy-bartells", source: "maxcy", target: "bartells", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
+  { id: "maxcy-buckman", source: "maxcy", target: "buckman", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
+  { id: "maxcy-library", source: "maxcy", target: "library", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
+  { id: "library-buckman", source: "library", target: "buckman", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
+  { id: "buckman-kaplan", source: "buckman", target: "kaplan", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
+  { id: "bartells-dodds", source: "bartells", target: "dodds", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
+  { id: "dodds-kaplan", source: "dodds", target: "kaplan", type: 'customEdge', data: {amount: 1, type: 'zombies'} },
 ];
 
 const edgeTypes = {
-  buttonEdge: ButtonEdge,
+  customEdge: CustomEdge,
 };
 
 export default function App() {
