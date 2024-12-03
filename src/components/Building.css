@@ -6,7 +6,7 @@
   border: 2px solid #4b0082; /* Slight border for depth */
   border-radius: 10px; /* Slight rounded corners for a smoother look */
   position: relative;
-  margin: 100px auto;
+  margin-top: 50px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
   background: linear-gradient(
     180deg,

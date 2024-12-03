@@ -30,7 +30,7 @@ export function Zombies({
                     height="30"
                     x={index * 30} // Position each icon horizontally (adjust as needed)
                 >
-                    <animateMotion dur="10s" repeatCount="indefinite" path={edgePath} />
+                    <animateMotion dur="5s" repeatCount="1" path={edgePath} />
                 </image>
             ))}
         </g>
