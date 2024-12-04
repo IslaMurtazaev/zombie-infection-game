@@ -89,7 +89,7 @@ function drawMap(highlightBuildings = [], highlightPath = []) {
         ctx.beginPath();
         ctx.moveTo(fromNode.x, fromNode.y);
         ctx.lineTo(toNode.x, toNode.y);
-        ctx.strokeStyle = isHighlighted ? "red" : "gray";
+        ctx.strokeStyle = isHighlighted ? "#880808" : "gray";
         ctx.lineWidth = isHighlighted ? 2 : 1;
         ctx.stroke();
 
@@ -118,7 +118,7 @@ function drawMap(highlightBuildings = [], highlightPath = []) {
         );
 
         // Ground
-        ctx.fillStyle = "#8b2222";
+        ctx.fillStyle = "#880808";
         ctx.fillRect(node.x - 50, node.y, 100, 10);
     })
 }

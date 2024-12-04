@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dijkstra's Undead</title>
     <style>
+        @font-face {
+            font-family: zombieBrainless;
+            src: url(fonts/zombies-brainless/zombies_brainless.ttf);
+        }
         canvas {
-            border: 1px solid black;
             display: block;
             margin: 20px auto;
         }
@@ -18,7 +21,7 @@
     </style>
 </head>
 <body>
-<h1 style="text-align: center;">Dijkstra's Undead</h1>
+<h1 style="text-align: center; font-family: zombieBrainless,serif; font-size: 100px; color: #880808; margin: 30px auto 0 auto">Dijkstra's Undead</h1>
 <canvas id="map" width="1200" height="800"></canvas>
 <div id="info">The zombies are on the move...</div>
 <script src="zombie-dijkstra-auto.js"></script>
