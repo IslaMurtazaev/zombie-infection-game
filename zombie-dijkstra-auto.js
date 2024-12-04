@@ -27,9 +27,6 @@ const edges = [
     { from: 8, to: 5, defenders: 2 },
 ];
 
-const startNode = 1;
-const targetNode = 5;
-
 // Draw a label under the building
 function drawLabel(x, y, text) {
     ctx.fillStyle = "black"; // Label color
@@ -94,7 +91,7 @@ function drawDefenders(fromNode, toNode, count) {
 }
 
 // Draw the map
-function drawMap(highlightPath = []) {
+function drawMap(highlightBuildings = [], highlightPath = []) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw edges
@@ -122,142 +119,107 @@ function drawMap(highlightPath = []) {
         drawBuilding(node.x, node.y, highlight);
         drawLabel(node.x, node.y, node.name || `Building ${node.id}`);
     });
-}
 
-// Dijkstra's algorithm
-function findShortestPath(start, target) {
-    const distances = {};
-    const previous = {};
-    const queue = [];
-    const pathEdges = [];
-
-    nodes.forEach(node => {
-        distances[node.id] = Infinity;
-        previous[node.id] = null;
-    });
-    distances[start] = 0;
-    queue.push({ id: start, cost: 0 });
-
-    while (queue.length > 0) {
-        queue.sort((a, b) => a.cost - b.cost);
-        const current = queue.shift();
-
-        if (current.id === target) break;
-
-        edges.filter(e => e.from === current.id || e.to === current.id)
-            .forEach(edge => {
-                const neighbor = (edge.from === current.id) ? edge.to : edge.from;
-                const newCost = distances[current.id] + edge.defenders;
-
-                if (newCost < distances[neighbor]) {
-                    distances[neighbor] = newCost;
-                    previous[neighbor] = current.id;
-                    queue.push({ id: neighbor, cost: newCost });
-                }
-            });
-    }
-
-    // Reconstruct path
-    let step = target;
-    while (previous[step] !== null) {
-        const from = previous[step];
-        const to = step;
-        pathEdges.push(edges.find(e => (e.from === from && e.to === to) || (e.from === to && e.to === from)));
-        step = from;
-    }
-    return pathEdges.reverse();
-}
-
-// Animate the path
-function animatePath(path) {
-    let index = 0;
-
-    function step() {
-        if (index >= path.length) {
-            document.getElementById("info").innerText = "The zombies have reached their target!";
-            return;
-        }
-
-        const highlight = path.slice(0, index + 1);
-        drawMap(highlight);
-        index++;
-        setTimeout(step, 1000);
-    }
-
-    // highlight the start point
-    drawMap([{ from: path[0].from, to: path[0].from, defenders: 0 }])
-    setTimeout(step, 5000);
+    console.log('highlightBuildings', highlightBuildings)
+    highlightBuildings.forEach(nodeId => {
+        const node = nodes.find(node => node.id === nodeId)
+        ctx.drawImage(
+            zombieImg,
+            node.x - 20 / 2,
+            node.y - 20 / 2,
+            20,
+            20
+        );
+    })
 }
 
 // Load the zombie image
 const zombieImg = new Image();
 zombieImg.src = "icons/zombie2.png"; // Replace with your zombie PNG file path
 
-// Function to animate the zombie along the shortest path
-function animateZombie(path, speed = 2) {
-    let progress = 0; // Progress along the current edge
-    let edgeIndex = 0; // Current edge in the path
+let infectedBuildings = new Set([1]);  // Start with one infected building (e.g., Library)
+
+// Function to calculate the next building based on Dijkstra's logic
+function findNextBuilding() {
+    let nextBuildingFrom = null
+    let nextBuilding = null;
+    let minDefenders = Infinity;
+
+    infectedBuildings.forEach(buildingId => {
+        const currentNode = nodes.find(node => node.id === buildingId);
+        const neighbors = edges.filter(edge => edge.from === buildingId || edge.to === buildingId);
+
+        neighbors.forEach(edge => {
+            const neighborId = edge.from === buildingId ? edge.to : edge.from;
+            const defenderCount = edge.defenders;
+
+            if (!infectedBuildings.has(neighborId) && defenderCount < minDefenders) {
+                minDefenders = defenderCount;
+                nextBuilding = neighborId;
+                nextBuildingFrom = currentNode.id
+            }
+        });
+    });
+
+    return {from: nextBuildingFrom, to: nextBuilding};
+}
+
+// Function to animate the zombie moving along a line
+function moveZombieAlongLine(fromNode, toNode) {
+    const zombieSize = 30; // Adjust zombie size
+    const zombieSpeed = 0.02; // Controls the speed of the movement (0 to 1)
+    let t = 0;  // Parameter for linear interpolation (0 -> start, 1 -> end)
+
+    // Get the coordinates of the two buildings
+    const startX = fromNode.x;
+    const startY = fromNode.y;
+    const endX = toNode.x;
+    const endY = toNode.y;
 
     function animate() {
-        if (edgeIndex >= path.length) {
-            console.log("Zombie reached the destination!");
-            return; // Stop animation when the path ends
-        }
+        t += zombieSpeed;  // Increase the parameter over time (speed up the movement)
 
-        // Get the current edge and its nodes
-        const edge = path[edgeIndex];
-        const fromNode = nodes.find(n => n.id === edge.from);
-        const toNode = nodes.find(n => n.id === edge.to);
+        // Interpolate the zombie's position along the line
+        const currentX = startX + t * (endX - startX);
+        const currentY = startY + t * (endY - startY);
 
-        // Calculate the position of the zombie
-        const dx = toNode.x - fromNode.x;
-        const dy = toNode.y - fromNode.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const normalizedDx = dx / distance;
-        const normalizedDy = dy / distance;
-
-        const zombieX = fromNode.x + normalizedDx * progress;
-        const zombieY = fromNode.y + normalizedDy * progress;
-
-        // Clear canvas and redraw everything
-        drawMap(path); // Redraw map with highlighted path
-        const zombieSize = 20; // Adjust zombie size as needed
+        // Redraw the map and draw the zombie at the new position
+        drawMap([...infectedBuildings]);
         ctx.drawImage(
             zombieImg,
-            zombieX - zombieSize / 2,
-            zombieY - zombieSize / 2,
+            currentX - zombieSize / 2,
+            currentY - zombieSize / 2,
             zombieSize,
             zombieSize
         );
 
-        // Update progress along the edge
-        progress += speed;
-
-        // Move to the next edge if the zombie reaches the end of the current one
-        if (progress >= distance) {
-            progress = 0; // Reset progress for the next edge
-            edgeIndex++;
-        }
-
-        // Continue the animation
-        if (edgeIndex < path.length) {
+        // If the zombie hasn't reached the destination, continue animating
+        if (t < 1) {
             requestAnimationFrame(animate);
+        } else {
+            // Mark the destination building as infected and continue
+            infectedBuildings.add(toNode.id);
+
+            // Start the next movement
+            setTimeout(startNextMovement, 500); // Wait a bit before moving again
         }
     }
 
-    // Start the animation
     animate();
 }
 
+// Function to start the next movement
+function startNextMovement() {
+    const {from: fromNodeId, to: toNodeId} = findNextBuilding();
+    if (fromNodeId) {
+        const fromNode = nodes.find(node => node.id === fromNodeId)
+        const toNode = nodes.find(node => node.id === toNodeId)
 
-// Main
-drawMap();
+        moveZombieAlongLine(fromNode, toNode);
+    } else {
+        console.log("Zombie has infected all reachable buildings!");
+    }
+}
 
 // Start the animation when the zombie image is loaded
-zombieImg.onload = () => {
-    const shortestPath = findShortestPath(startNode, targetNode);
-    animateZombie(shortestPath);
-};
-
-// const shortestPath = findShortestPath(startNode, targetNode);
-// animatePath(shortestPath);
+zombieImg.onload = startNextMovement;
