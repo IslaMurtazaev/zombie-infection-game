@@ -3,14 +3,14 @@ const ctx = canvas.getContext("2d");
 
 // Map configuration
 const nodes = [
-    { id: 1, x: 100, y: 100, name: "Bayer" },
-    { id: 2, x: 500, y: 100, name: "Henry" },
-    { id: 3, x: 700, y: 110, name: "Bartels" },
-    { id: 4, x: 700, y: 300, name: "Buckman" },
-    { id: 5, x: 900, y: 300, name: "Kaplan" },
-    { id: 6, x: 500, y: 500, name: "Library" },
-    { id: 7, x: 300, y: 300, name: "Maxcy" },
-    { id: 8, x: 900, y: 70, name: "Dodd's" },
+    { id: 1, x: 100, y: 200, name: "Bayer H." },
+    { id: 2, x: 500, y: 200, name: "Henry H." },
+    { id: 3, x: 700, y: 210, name: "Bartels H." },
+    { id: 4, x: 700, y: 400, name: "Buckman H." },
+    { id: 5, x: 900, y: 400, name: "Kaplan H." },
+    { id: 6, x: 500, y: 600, name: "Library" },
+    { id: 7, x: 300, y: 400, name: "Maxcy H." },
+    { id: 8, x: 900, y: 170, name: "Dodd's H." },
 
 ];
 
