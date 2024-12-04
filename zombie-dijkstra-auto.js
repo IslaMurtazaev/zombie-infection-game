@@ -193,12 +193,34 @@ function moveZombieAlongLine(fromNode, toNode) {
             infectedRoads.add([fromNode.id, toNode.id])
 
             // Start the next movement
-            setTimeout(startNextMovement, 500); // Wait a bit before moving again
+            setTimeout(startNextMovement, 1500); // Wait a bit before moving again
         }
     }
 
     animate();
 }
+
+function getCookie(name) {
+    // Get all cookies as a single string
+    const cookies = document.cookie;
+
+    // Split the cookies into an array of individual cookies
+    const cookieArray = cookies.split("; ");
+
+    // Find the cookie that matches the given name
+    for (let cookie of cookieArray) {
+        const [key, value] = cookie.split("=");
+        if (key === name) {
+            return decodeURIComponent(value); // Return the decoded value
+        }
+    }
+
+    // Return null if the cookie is not found
+    return null;
+}
+
+// Example usage
+const pausingState = getCookie("pausing");
 
 // Function to start the next movement
 function startNextMovement() {
@@ -208,6 +230,9 @@ function startNextMovement() {
         const toNode = nodes.find(node => node.id === toNodeId)
 
         moveZombieAlongLine(fromNode, toNode);
+        if (pausingState === 'true') {
+            alert("Can you guess which is the next best route?")
+        }
     } else {
         drawMap([...infectedBuildings], [...infectedRoads])
         document.getElementById("info").innerHTML = "Zombies are everywhere! RUN!";
