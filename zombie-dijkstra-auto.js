@@ -113,32 +113,8 @@ function drawMap(highlightPath = []) {
 
         // Draw defenders on the road
         drawDefenders(fromNode, toNode, edge.defenders);
-
-        // // Label the road with the number of defenders
-        // const midX = (fromNode.x + toNode.x) / 2;
-        // const midY = (fromNode.y + toNode.y) / 2;
-        // ctx.fillStyle = "black";
-        // ctx.font = "12px Arial";
-        // ctx.fillText(edge.defenders, midX, midY);
     });
 
-
-    // // Draw nodes
-    // nodes.forEach(node => {
-    //     ctx.beginPath();
-    //     ctx.arc(node.x, node.y, 20, 0, 2 * Math.PI);
-    //     ctx.fillStyle = (node.id === startNode) ? "green" :
-    //         (node.id === targetNode) ? "red" : "white";
-    //     ctx.fill();
-    //     ctx.strokeStyle = "black";
-    //     ctx.stroke();
-    //
-    //     // Label nodes
-    //     ctx.fillStyle = "black";
-    //     ctx.font = "14px Arial";
-    //     ctx.fillText(node.id, node.x - 5, node.y + 5);
-    // });
-    // Draw nodes as buildings
     nodes.forEach(node => {
         const highlight = highlightPath.some(edge =>
             edge.from === node.id || edge.to === node.id
