@@ -42,13 +42,13 @@ function drawLabel(x, y, text) {
 function drawBuilding(x, y, highlight = false) {
     // Ground
     ctx.fillStyle = "#228B22";
-    ctx.fillRect(x - 50, y + 60, 90, 10);
+    ctx.fillRect(x - 50, y, 90, 10);
 
     // Main building
     ctx.fillStyle = highlight ? "#FFD700" : "#f4f4f4";
-    ctx.fillRect(x - 40, y - 20, 70, 80);
+    ctx.fillRect(x - 40, y - 80, 70, 80);
     ctx.strokeStyle = "#ccc";
-    ctx.strokeRect(x - 40, y - 20, 70, 80);
+    ctx.strokeRect(x - 40, y - 80, 70, 80);
 
     // Windows
     ctx.fillStyle = "#87CEEB";
@@ -56,7 +56,7 @@ function drawBuilding(x, y, highlight = false) {
         for (let col = 0; col < 3; col++) {
             ctx.fillRect(
                 x - 30 + col * 20,
-                y + row * 20,
+                y + row * 20 - 60,
                 10,
                 10
             );
@@ -65,7 +65,7 @@ function drawBuilding(x, y, highlight = false) {
 
     // Door
     ctx.fillStyle = "#8B4513";
-    ctx.fillRect(x - 10, y + 40, 10, 20);
+    ctx.fillRect(x - 10, y - 20, 10, 20);
 }
 
 // Load the defender image
