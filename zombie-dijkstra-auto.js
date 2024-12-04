@@ -11,7 +11,6 @@ const nodes = [
     { id: 6, x: 500, y: 600, name: "Library", imgUrl: "icons/library.png", yOffset: 1 },
     { id: 7, x: 300, y: 400, name: "Maxcy H.", imgUrl: "icons/maxcy.png" },
     { id: 8, x: 900, y: 170, name: "Dodd's H.", imgUrl: "icons/dodds.png", yOffset: 6 },
-
 ];
 
 const edges = [
@@ -21,8 +20,8 @@ const edges = [
     { from: 4, to: 5, defenders: 2 },
     { from: 3, to: 5, defenders: 4 },
     { from: 1, to: 7, defenders: 4 },
-    { from: 7, to: 6, defenders: 2 },
-    { from: 6, to: 4, defenders: 3 },
+    { from: 6, to: 7, defenders: 2 },
+    { from: 4, to: 6, defenders: 3 },
     { from: 3, to: 8, defenders: 2 },
     { from: 8, to: 5, defenders: 2 },
 ];
@@ -82,7 +81,9 @@ function drawMap(highlightBuildings = [], highlightPath = []) {
     edges.forEach(edge => {
         const fromNode = nodes.find(n => n.id === edge.from);
         const toNode = nodes.find(n => n.id === edge.to);
-        const isHighlighted = highlightPath.includes(edge);
+        const isHighlighted = highlightPath.some(
+            ([fromNodeId, toNodeId]) => fromNodeId === fromNode.id && toNodeId === toNode.id
+        );
 
         // Draw the road
         ctx.beginPath();
@@ -93,7 +94,9 @@ function drawMap(highlightBuildings = [], highlightPath = []) {
         ctx.stroke();
 
         // Draw defenders on the road
-        drawDefenders(fromNode, toNode, edge.defenders);
+        if (!isHighlighted) {
+            drawDefenders(fromNode, toNode, edge.defenders);
+        }
     });
 
     nodes.forEach(node => {
@@ -122,9 +125,10 @@ function drawMap(highlightBuildings = [], highlightPath = []) {
 
 // Load the zombie image
 const zombieImg = new Image();
-zombieImg.src = "icons/zombie2.png"; // Replace with your zombie PNG file path
+zombieImg.src = "icons/zombie2.png";
 
 let infectedBuildings = new Set([1]);  // Start with one infected building (e.g., Library)
+let infectedRoads = new Set();
 
 // Function to calculate the next building based on Dijkstra's logic
 function findNextBuilding() {
@@ -171,7 +175,7 @@ function moveZombieAlongLine(fromNode, toNode) {
         const currentY = startY + t * (endY - startY);
 
         // Redraw the map and draw the zombie at the new position
-        drawMap([...infectedBuildings]);
+        drawMap([...infectedBuildings], [...infectedRoads]);
         ctx.drawImage(
             zombieImg,
             currentX - zombieSize / 2,
@@ -186,6 +190,7 @@ function moveZombieAlongLine(fromNode, toNode) {
         } else {
             // Mark the destination building as infected and continue
             infectedBuildings.add(toNode.id);
+            infectedRoads.add([fromNode.id, toNode.id])
 
             // Start the next movement
             setTimeout(startNextMovement, 500); // Wait a bit before moving again
@@ -204,7 +209,7 @@ function startNextMovement() {
 
         moveZombieAlongLine(fromNode, toNode);
     } else {
-        drawMap([...infectedBuildings])
+        drawMap([...infectedBuildings], [...infectedRoads])
         document.getElementById("info").innerHTML = "Zombies are everywhere!";
     }
 }
