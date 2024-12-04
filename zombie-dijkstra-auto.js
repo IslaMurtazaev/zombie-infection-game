@@ -210,7 +210,7 @@ function startNextMovement() {
         moveZombieAlongLine(fromNode, toNode);
     } else {
         drawMap([...infectedBuildings], [...infectedRoads])
-        document.getElementById("info").innerHTML = "Zombies are everywhere!";
+        document.getElementById("info").innerHTML = "Zombies are everywhere! RUN!";
     }
 }
 
