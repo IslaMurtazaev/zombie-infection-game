@@ -3,14 +3,14 @@ const ctx = canvas.getContext("2d");
 
 // Map configuration
 const nodes = [
-    { id: 1, x: 100, y: 200, name: "Bayer H." },
-    { id: 2, x: 500, y: 200, name: "Henry H." },
-    { id: 3, x: 700, y: 210, name: "Bartels H." },
-    { id: 4, x: 700, y: 400, name: "Buckman H." },
-    { id: 5, x: 900, y: 400, name: "Kaplan H." },
-    { id: 6, x: 500, y: 600, name: "Library" },
-    { id: 7, x: 300, y: 400, name: "Maxcy H." },
-    { id: 8, x: 900, y: 170, name: "Dodd's H." },
+    { id: 1, x: 100, y: 200, name: "Bayer H.", imgUrl: "icons/bayer.png", yOffset: 2 },
+    { id: 2, x: 500, y: 200, name: "Henry H.", imgUrl: "icons/maxcy.png" },
+    { id: 3, x: 700, y: 210, name: "Bartels H.", imgUrl: "icons/bartels.png", yOffset: 3 },
+    { id: 4, x: 700, y: 400, name: "Buckman H.", imgUrl: "icons/buckman.png", yOffset: 4 },
+    { id: 5, x: 900, y: 400, name: "Kaplan H.", imgUrl: "icons/kaplan.png", yOffset: 1 },
+    { id: 6, x: 500, y: 600, name: "Library", imgUrl: "icons/library.png", yOffset: 1 },
+    { id: 7, x: 300, y: 400, name: "Maxcy H.", imgUrl: "icons/maxcy.png" },
+    { id: 8, x: 900, y: 170, name: "Dodd's H.", imgUrl: "icons/dodds.png", yOffset: 6 },
 
 ];
 
@@ -36,33 +36,17 @@ function drawLabel(x, y, text) {
 }
 
 // Draw a small building
-function drawBuilding(x, y, highlight = false) {
+function drawBuilding(x, y, highlight = false, imgUrl, buildingYOffset) {
     // Ground
     ctx.fillStyle = "#228B22";
-    ctx.fillRect(x - 50, y, 90, 10);
+    ctx.fillRect(x - 50, y, 100, 10);
 
-    // Main building
-    ctx.fillStyle = highlight ? "#FFD700" : "#f4f4f4";
-    ctx.fillRect(x - 40, y - 80, 70, 80);
-    ctx.strokeStyle = "#ccc";
-    ctx.strokeRect(x - 40, y - 80, 70, 80);
+    // Load the defender image
+    const buildingSize = 80
+    const buildingImg = new Image();
+    buildingImg.src = imgUrl;
 
-    // Windows
-    ctx.fillStyle = "#87CEEB";
-    for (let row = 0; row < 2; row++) {
-        for (let col = 0; col < 3; col++) {
-            ctx.fillRect(
-                x - 30 + col * 20,
-                y + row * 20 - 60,
-                10,
-                10
-            );
-        }
-    }
-
-    // Door
-    ctx.fillStyle = "#8B4513";
-    ctx.fillRect(x - 10, y - 20, 10, 20);
+    ctx.drawImage(buildingImg, x - buildingSize / 2, y - buildingSize + buildingYOffset, buildingSize, buildingSize);
 }
 
 // Load the defender image
@@ -116,20 +100,23 @@ function drawMap(highlightBuildings = [], highlightPath = []) {
         const highlight = highlightPath.some(edge =>
             edge.from === node.id || edge.to === node.id
         );
-        drawBuilding(node.x, node.y, highlight);
+        drawBuilding(node.x, node.y, highlight, node.imgUrl, node.yOffset || 0);
         drawLabel(node.x, node.y, node.name || `Building ${node.id}`);
     });
 
-    console.log('highlightBuildings', highlightBuildings)
     highlightBuildings.forEach(nodeId => {
         const node = nodes.find(node => node.id === nodeId)
         ctx.drawImage(
             zombieImg,
             node.x - 20 / 2,
-            node.y - 20 / 2,
+            node.y - 40 / 2,
             20,
             20
         );
+
+        // Ground
+        ctx.fillStyle = "#8b2222";
+        ctx.fillRect(node.x - 50, node.y, 100, 10);
     })
 }
 
