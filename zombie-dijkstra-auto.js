@@ -204,7 +204,8 @@ function startNextMovement() {
 
         moveZombieAlongLine(fromNode, toNode);
     } else {
-        console.log("Zombie has infected all reachable buildings!");
+        drawMap([...infectedBuildings])
+        document.getElementById("info").innerHTML = "Zombies are everywhere!";
     }
 }
 
